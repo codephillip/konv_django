@@ -137,3 +137,10 @@ ENV_ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS')
 # ALLOWED_HOSTS = ENV_ALLOWED_HOSTS.split(',') if ENV_ALLOWED_HOSTS is not None else []
 ALLOWED_HOSTS = ['*']
 DEBUG = bool(strtobool(os.environ.get('DEBUG', default='True')))
+
+
+try:
+    import django_heroku
+    django_heroku.settings(locals())
+except Exception as e:
+    print(e)
