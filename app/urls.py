@@ -28,22 +28,22 @@ class OptionalSlashRouter(DefaultRouter):
 
 router = OptionalSlashRouter()
 
-router.register(r'user', UserViewSet, 'user')
-router.register(r'district', DistrictViewSet, 'district')
-router.register(r'location', LocationViewSet, 'location')
-router.register(r'category', CategoryViewSet, 'category')
+router.register(r'users', UserViewSet, 'users')
+router.register(r'districts', DistrictViewSet, 'districts')
+router.register(r'locations', LocationViewSet, 'locations')
+router.register(r'categories', CategoryViewSet, 'categories')
 router.register(r'stock', StockViewSet, 'stock')
-router.register(r'shop', ShopViewSet, 'shop')
-router.register(r'product', ProductViewSet, 'product')
-router.register(r'payment', PaymentViewSet, 'payment')
-router.register(r'order', OrderViewSet, 'order')
-router.register(r'orderItem', OrderItemViewSet, 'orderItem')
+router.register(r'shops', ShopViewSet, 'shops')
+router.register(r'products', ProductViewSet, 'products')
+router.register(r'payments', PaymentViewSet, 'payments')
+router.register(r'orders', OrderViewSet, 'orders')
+router.register(r'orderItems', OrderItemViewSet, 'orderItems')
 router.register(r'deliverySpeed', DeliverySpeedViewSet, 'deliverySpeed')
-router.register(r'announcement', AnnouncementViewSet, 'announcement')
+router.register(r'announcements', AnnouncementViewSet, 'announcements')
 
 schema_view = get_schema_view(
     openapi.Info(
-        title="app",
+        title="Konv",
         default_version='v1',
         description="API description",
     ),
