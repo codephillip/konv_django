@@ -27,6 +27,9 @@ class User(models.Model):
     class Meta:
         db_table = "user"
 
+    def __str__(self):
+        return self.username
+
 
 class District(models.Model):
 
@@ -35,6 +38,9 @@ class District(models.Model):
 
     class Meta:
         db_table = "district"
+
+    def __str__(self):
+        return self.name
 
 
 class Location(models.Model):
@@ -61,6 +67,9 @@ class Category(models.Model):
     class Meta:
         db_table = "category"
 
+    def __str__(self):
+        return self.name
+
 
 class Stock(models.Model):
 
@@ -76,6 +85,9 @@ class Stock(models.Model):
     class Meta:
         db_table = "stock"
 
+    def __str__(self):
+        return self.name
+
 
 class Shop(models.Model):
 
@@ -86,6 +98,9 @@ class Shop(models.Model):
 
     class Meta:
         db_table = "shop"
+
+    def __str__(self):
+        return self.name
 
 
 class Product(models.Model):
@@ -107,6 +122,9 @@ class Product(models.Model):
 
     class Meta:
         db_table = "product"
+
+    def __str__(self):
+        return self.name
 
 
 class Payment(models.Model):
@@ -132,6 +150,9 @@ class Payment(models.Model):
 
     class Meta:
         db_table = "payment"
+
+    def __str__(self):
+        return self.customer.id
 
 
 class Order(models.Model):

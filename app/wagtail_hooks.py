@@ -12,8 +12,8 @@ class ProductAdmin(ModelAdmin):
     add_to_settings_menu = False
     exclude_from_explorer = False
     list_display = ("title", "image", "created_at")
-    # list_filter = ("category",)
-    # search_fields = ("title",)
+    list_filter = ("category", "shop")
+    search_fields = ("name",)
 
 
 class ShopAdmin(ModelAdmin):
@@ -24,8 +24,18 @@ class ShopAdmin(ModelAdmin):
     add_to_settings_menu = False
     exclude_from_explorer = False
     list_display = ("name", "image")
-    # list_filter = ("category",)
-    # search_fields = ("title",)
+    search_fields = ("name",)
+
+
+class CategoryAdmin(ModelAdmin):
+    model = Category
+    menu_label = "Category"
+    menu_icon = "media"
+    menu_order = 200
+    add_to_settings_menu = False
+    exclude_from_explorer = False
+    list_display = ("name", "image")
+    search_fields = ("name",)
 
 
 class LocationAdmin(ModelAdmin):
@@ -43,6 +53,7 @@ class LocationAdmin(ModelAdmin):
 modeladmin_register(ProductAdmin)
 modeladmin_register(ShopAdmin)
 modeladmin_register(LocationAdmin)
+modeladmin_register(CategoryAdmin)
 
 
 
