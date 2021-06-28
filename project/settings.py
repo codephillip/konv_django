@@ -6,6 +6,8 @@ import os
 import sys
 from distutils.util import strtobool
 from pathlib import Path
+import cloudinary
+import cloudinary_storage
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent
@@ -37,6 +39,9 @@ INSTALLED_APPS = [
     'wagtail.locales',
     'modelcluster',
     'taggit',
+    # Media Cloudinary
+    'cloudinary',
+    'cloudinary_storage',
 ]
 MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -153,6 +158,15 @@ SWAGGER_SETTINGS = {
     },
     'USE_SESSION_AUTH': False
 }
+
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME', default=''),
+    'API_KEY': os.environ.get('CLOUDINARY_API_KEY', default=''),
+    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET', default=''),
+}
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 CSRF_COOKIE_SECURE = os.environ.get('CSRF_COOKIE_SECURE', default=False)
 SESSION_COOKIE_SECURE = os.environ.get('SESSION_COOKIE_SECURE', default=False)
