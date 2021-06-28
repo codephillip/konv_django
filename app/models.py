@@ -4,24 +4,25 @@ from django.utils import timezone
 
 
 class User(models.Model):
-    DEVELOPER = 'DEVELOPER'
-    CUSTOMER = 'CUSTOMER'
-    DRIVER = 'DRIVER'
-    ADMIN = 'ADMIN'
+    DEVELOPER = 'developer'
+    CUSTOMER = 'customer'
+    DRIVER = 'driver'
+    ADMIN = 'admin'
     ROLE_CHOICES = [
-        (DEVELOPER, 'DEVELOPER'),
-        (CUSTOMER, 'CUSTOMER'),
-        (DRIVER, 'DRIVER'),
-        (ADMIN, 'ADMIN')
+        (DEVELOPER, 'developer'),
+        (CUSTOMER, 'customer'),
+        (DRIVER, 'driver'),
+        (ADMIN, 'admin')
     ]
 
     id = models.AutoField(primary_key=True)
     dob = models.DateField(null=True, blank=True)
     verified = models.BooleanField(null=True, blank=True, default=True)
-    phone = models.CharField(max_length=15, null=True, blank=True, unique=True)
-    role = models.CharField(max_length=9, choices=ROLE_CHOICES, null=True, blank=True)
+    phone = models.CharField(max_length=20, null=True, blank=True, unique=True)
+    role = models.CharField(max_length=30, choices=ROLE_CHOICES, default=ADMIN)
     location = models.ForeignKey('Location', on_delete=models.SET_NULL,
                                  related_name='users', null=True, blank=True)
+    profile_pic = models.ImageField(upload_to='thumbnail/profile/', null=True, blank=True)
 
     class Meta:
         db_table = "user"
@@ -55,7 +56,7 @@ class Category(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255, null=True, blank=True, unique=True)
     description = models.CharField(max_length=255, null=True, blank=True)
-    image = models.CharField(max_length=255, null=True, blank=True)
+    image = models.ImageField(upload_to='thumbnail/category/', null=True, blank=True)
 
     class Meta:
         db_table = "category"
@@ -81,6 +82,7 @@ class Shop(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255, null=True, blank=True, unique=True)
     is_special = models.BooleanField(null=True, blank=True, default=False)
+    image = models.ImageField(upload_to='thumbnail/shop/', null=True, blank=True)
 
     class Meta:
         db_table = "shop"
@@ -93,7 +95,7 @@ class Product(models.Model):
     expiry_date = models.DateTimeField(null=True, blank=True)
     weight = models.FloatField(validators=[MinValueValidator(0.0)],
                                null=True, blank=True, default=0.0)
-    image = models.CharField(max_length=255, null=True, blank=True)
+    image = models.ImageField(upload_to='thumbnail/product/', null=True, blank=True)
     discount = models.IntegerField(validators=[MinValueValidator(
         0), MaxValueValidator(99)], null=True, blank=True, default=0)
     description = models.CharField(max_length=255, null=True, blank=True)
@@ -123,7 +125,7 @@ class Payment(models.Model):
     created_at = models.DateTimeField(null=True, blank=True, default=timezone.now)
     paid_at = models.DateTimeField(null=True, blank=True)
     amount = models.IntegerField(validators=[MinValueValidator(500)])
-    status = models.CharField(max_length=9, choices=STATUS_CHOICES,
+    status = models.CharField(max_length=30, choices=STATUS_CHOICES,
                               null=True, blank=True, default='pending')
     customer = models.ForeignKey('User', on_delete=models.CASCADE, related_name='payments')
     order = models.ForeignKey('Order', on_delete=models.CASCADE, related_name='payments')
@@ -154,7 +156,7 @@ class Order(models.Model):
 
     id = models.AutoField(primary_key=True)
     created_at = models.DateTimeField(null=True, blank=True, default=timezone.now)
-    status = models.CharField(max_length=9, choices=STATUS_CHOICES,
+    status = models.CharField(max_length=30, choices=STATUS_CHOICES,
                               null=True, blank=True, default='placed')
     valid = models.BooleanField(null=True, blank=True, default=True)
     delivery_method = models.CharField(
@@ -193,7 +195,7 @@ class DeliverySpeed(models.Model):
     ]
 
     id = models.AutoField(primary_key=True)
-    type = models.CharField(max_length=8, choices=TYPE_CHOICES, null=True, blank=True)
+    type = models.CharField(max_length=30, choices=TYPE_CHOICES, null=True, blank=True)
     description = models.CharField(max_length=255, null=True, blank=True)
 
     class Meta:
@@ -205,7 +207,8 @@ class Announcement(models.Model):
     id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=255, null=True, blank=True)
     body = models.CharField(max_length=255, null=True, blank=True)
-    image = models.CharField(max_length=255, null=True, blank=True)
+    image = models.ImageField(upload_to='thumbnail/announcement/', null=True, blank=True)
+
 
     class Meta:
         db_table = "announcement"
