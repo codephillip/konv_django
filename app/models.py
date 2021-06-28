@@ -23,6 +23,7 @@ class User(models.Model):
     location = models.ForeignKey('Location', on_delete=models.SET_NULL,
                                  related_name='users', null=True, blank=True)
     profile_pic = models.ImageField(upload_to='thumbnail/profile/', null=True, blank=True)
+    created_at = models.DateTimeField(null=True, blank=True, default=timezone.now)
 
     class Meta:
         db_table = "user"
@@ -35,6 +36,7 @@ class District(models.Model):
 
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50, unique=True)
+    created_at = models.DateTimeField(null=True, blank=True, default=timezone.now)
 
     class Meta:
         db_table = "district"
@@ -52,6 +54,7 @@ class Location(models.Model):
         0.0), MaxValueValidator(50.0)], null=True, blank=True)
     district = models.ForeignKey('District', on_delete=models.SET_NULL,
                                  related_name='locations', null=True, blank=True)
+    created_at = models.DateTimeField(null=True, blank=True, default=timezone.now)
 
     class Meta:
         db_table = "location"
@@ -63,6 +66,7 @@ class Category(models.Model):
     name = models.CharField(max_length=255, null=True, blank=True, unique=True)
     description = models.CharField(max_length=255, null=True, blank=True)
     image = models.ImageField(upload_to='thumbnail/category/', null=True, blank=True)
+    created_at = models.DateTimeField(null=True, blank=True, default=timezone.now)
 
     class Meta:
         db_table = "category"
@@ -95,6 +99,7 @@ class Shop(models.Model):
     name = models.CharField(max_length=255, null=True, blank=True, unique=True)
     is_special = models.BooleanField(null=True, blank=True, default=False)
     image = models.ImageField(upload_to='thumbnail/shop/', null=True, blank=True)
+    created_at = models.DateTimeField(null=True, blank=True, default=timezone.now)
 
     class Meta:
         db_table = "shop"
@@ -119,6 +124,7 @@ class Product(models.Model):
         validators=[MinValueValidator(500)], null=True, blank=True, default=500)
     category = models.ForeignKey('Category', on_delete=models.CASCADE, related_name='products')
     shop = models.ForeignKey('Shop', on_delete=models.CASCADE, related_name='products')
+    created_at = models.DateTimeField(null=True, blank=True, default=timezone.now)
 
     class Meta:
         db_table = "product"
@@ -202,6 +208,7 @@ class OrderItem(models.Model):
     units = models.IntegerField(validators=[MinValueValidator(1)], null=True, blank=True, default=1)
     valid = models.BooleanField(null=True, blank=True, default=True)
     product = models.ForeignKey('Product', on_delete=models.CASCADE, related_name='orderitems')
+    created_at = models.DateTimeField(null=True, blank=True, default=timezone.now)
 
     class Meta:
         db_table = "orderItem"
@@ -218,6 +225,7 @@ class DeliverySpeed(models.Model):
     id = models.AutoField(primary_key=True)
     type = models.CharField(max_length=30, choices=TYPE_CHOICES, null=True, blank=True)
     description = models.CharField(max_length=255, null=True, blank=True)
+    created_at = models.DateTimeField(null=True, blank=True, default=timezone.now)
 
     class Meta:
         db_table = "deliverySpeed"
@@ -229,6 +237,7 @@ class Announcement(models.Model):
     title = models.CharField(max_length=255, null=True, blank=True)
     body = models.CharField(max_length=255, null=True, blank=True)
     image = models.ImageField(upload_to='thumbnail/announcement/', null=True, blank=True)
+    created_at = models.DateTimeField(null=True, blank=True, default=timezone.now)
 
 
     class Meta:

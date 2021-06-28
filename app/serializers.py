@@ -46,7 +46,7 @@ class DistrictSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = District
-        fields = ['id', 'name', 'locations']
+        fields = ['id', 'name', 'locations', 'created_at']
 
 
 class LocationSerializer(serializers.ModelSerializer):
@@ -67,7 +67,7 @@ class LocationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Location
-        fields = ['id', 'lat', 'lng', 'users', 'orders', 'district']
+        fields = ['id', 'lat', 'lng', 'users', 'orders', 'district', 'created_at']
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -79,7 +79,7 @@ class CategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Category
-        fields = ['id', 'name', 'description', 'image', 'products']
+        fields = ['id', 'name', 'description', 'image', 'products', 'created_at']
 
 
 class StockSerializer(serializers.ModelSerializer):
@@ -89,7 +89,7 @@ class StockSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Stock
-        fields = ['id', 'units_in_stock', 'units_on_order', 'created_at', 'name', 'product']
+        fields = ['id', 'units_in_stock', 'units_on_order', 'created_at', 'name', 'product', 'created_at']
 
 
 class ShopSerializer(serializers.ModelSerializer):
@@ -101,7 +101,7 @@ class ShopSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Shop
-        fields = ['id', 'name', 'is_special', 'products']
+        fields = ['id', 'name', 'is_special', 'products', 'created_at']
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -125,7 +125,7 @@ class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = ['id', 'name', 'expiry_date', 'weight', 'image', 'discount',
-                  'description', 'color', 'price', 'stocks', 'orderitems', 'category', 'shop']
+                  'description', 'color', 'price', 'stocks', 'orderitems', 'category', 'shop', 'created_at']
 
 
 class PaymentSerializer(serializers.ModelSerializer):
@@ -138,7 +138,8 @@ class PaymentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Payment
-        fields = ['id', 'created_at', 'paid_at', 'amount', 'status', 'customer', 'order']
+        fields = ['id', 'created_at', 'paid_at', 'amount', 'status', 'customer', 'order', 'created_at']
+
 
 
 class OrderSerializer(serializers.ModelSerializer):
@@ -161,7 +162,8 @@ class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
         fields = ['id', 'created_at', 'status', 'valid', 'delivery_method', 'expected_delivery_date_time',
-                  'delivery_date_time', 'total_amount', 'payments', 'driver', 'location', 'deliveryspeed']
+                  'delivery_date_time', 'total_amount', 'payments', 'driver', 'location', 'deliveryspeed', 'created_at']
+
 
 
 class OrderItemSerializer(serializers.ModelSerializer):
@@ -171,7 +173,7 @@ class OrderItemSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = OrderItem
-        fields = ['id', 'units', 'valid', 'product']
+        fields = ['id', 'units', 'valid', 'product', 'created_at']
 
 
 class DeliverySpeedSerializer(serializers.ModelSerializer):
@@ -183,11 +185,11 @@ class DeliverySpeedSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = DeliverySpeed
-        fields = ['id', 'type', 'description', 'orders']
+        fields = ['id', 'type', 'description', 'orders', 'created_at']
 
 
 class AnnouncementSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Announcement
-        fields = ['id', 'title', 'body', 'image']
+        fields = ['id', 'title', 'body', 'image', 'created_at']
