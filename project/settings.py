@@ -74,7 +74,6 @@ WSGI_APPLICATION = 'project.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 
-print(os.getenv('DATABASE_USER'))
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -136,6 +135,10 @@ STATICFILES_DIRS = (
 
 #  Add configuration for static files storage using whitenoise
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+MEDIA_URL = "/media/"
+
+MEDIA_ROOT = os.path.join(PROJECT_ROOT, "media")
 
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
