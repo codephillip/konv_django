@@ -93,15 +93,9 @@ class StockSerializer(serializers.ModelSerializer):
 
 
 class ShopSerializer(serializers.ModelSerializer):
-    products = serializers.PrimaryKeyRelatedField(
-        many=True,
-        queryset=Product.objects.all(),
-        required=False
-    )
-
     class Meta:
         model = Shop
-        fields = ['id', 'name', 'is_special', 'products', 'created_at']
+        fields = ['id', 'name', 'is_special', 'created_at']
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -131,7 +125,6 @@ class PaymentSerializer(serializers.ModelSerializer):
         fields = ['id', 'created_at', 'paid_at', 'amount', 'status', 'customer', 'order', 'created_at']
 
 
-
 class OrderSerializer(serializers.ModelSerializer):
     payments = serializers.PrimaryKeyRelatedField(
         many=True,
@@ -153,7 +146,6 @@ class OrderSerializer(serializers.ModelSerializer):
         model = Order
         fields = ['id', 'created_at', 'status', 'valid', 'delivery_method', 'expected_delivery_date_time',
                   'delivery_date_time', 'total_amount', 'payments', 'driver', 'location', 'deliveryspeed', 'created_at']
-
 
 
 class OrderItemSerializer(serializers.ModelSerializer):
@@ -179,7 +171,6 @@ class DeliverySpeedSerializer(serializers.ModelSerializer):
 
 
 class AnnouncementSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Announcement
         fields = ['id', 'title', 'body', 'image', 'created_at']
