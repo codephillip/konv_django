@@ -28,9 +28,6 @@ class User(AbstractUser):
     # allows user to access these fields in /auth/me
     REQUIRED_FIELDS = ["phone", "role", "email"]
 
-    class Meta:
-        db_table = "user"
-
     def __str__(self):
         return self.username
 
