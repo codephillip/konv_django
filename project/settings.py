@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     # Media Cloudinary
     'cloudinary',
     'cloudinary_storage',
+    'rest_framework.authtoken',
+    'djoser',
 ]
 MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -151,7 +153,6 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.SessionAuthentication',
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
         'rest_framework.authentication.TokenAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
