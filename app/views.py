@@ -55,7 +55,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     permission_classes = []
-    filterset_fields = ['id', 'name', 'description', 'image', 'products']
+    filterset_fields = ['id', 'name', 'description', 'products']
 
 
 class StockViewSet(viewsets.ModelViewSet):
@@ -76,7 +76,7 @@ class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     permission_classes = []
-    filterset_fields = ['id', 'name', 'expiry_date', 'weight', 'image', 'discount',
+    filterset_fields = ['id', 'name', 'expiry_date', 'weight', 'discount',
                         'description', 'color', 'price', 'stocks', 'orderitems', 'category', 'shop']
 
 
@@ -113,4 +113,4 @@ class AnnouncementViewSet(viewsets.ModelViewSet):
     queryset = Announcement.objects.all()
     serializer_class = AnnouncementSerializer
     permission_classes = []
-    filterset_fields = ['id', 'title', 'body', 'image']
+    filterset_fields = ['id', 'title', 'body']
