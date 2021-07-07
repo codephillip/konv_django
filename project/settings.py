@@ -74,7 +74,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'project.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
@@ -87,7 +86,7 @@ DATABASES = {
         'PASSWORD': os.getenv('DATABASE_PASSWORD'),
         'HOST': os.getenv('DATABASE_HOST'),
         'PORT': os.getenv('DATABASE_PORT', 5432)
-     }
+    }
 }
 
 if 'test' in sys.argv or 'test_coverage' in sys.argv:
@@ -127,13 +126,12 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = os.environ.get('STATIC_URL', default='/static/')
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-STATIC_ROOT  =   os.path.join(PROJECT_ROOT, 'staticfiles')
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 
 # Extra lookup directories for collectstatic to find static files
 STATICFILES_DIRS = (
@@ -148,6 +146,24 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(PROJECT_ROOT, "media")
 
 REST_FRAMEWORK = {
+    'DEFAULT_PARSER_CLASSES': (
+        'rest_framework.parsers.JSONParser',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        # 'rest_framework.permissions.IsAuthenticated',
+        # debugging only. to allow access to the api without tokens
+        'rest_framework.permissions.AllowAny',
+        # 'app.permissions.IsPostOrIsAuthenticated',
+        # 'rest_framework.permissions.IsAdminUser',
+    ),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 100,
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
     'EXCEPTION_HANDLER': 'app.error_handling.custom_exception_handler',
 }
@@ -160,7 +176,6 @@ SWAGGER_SETTINGS = {
     },
     'USE_SESSION_AUTH': False
 }
-
 
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME', default=''),
@@ -178,12 +193,12 @@ ENV_ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS')
 ALLOWED_HOSTS = ['*']
 DEBUG = bool(strtobool(os.environ.get('DEBUG', default='True')))
 
-
 WAGTAIL_SITE_NAME = 'Konviniyenti Dashboard'
 WSGI_APPLICATION = 'project.wsgi.application'
 
 try:
     import django_heroku
+
     django_heroku.settings(locals())
 except Exception as e:
     print(e)
