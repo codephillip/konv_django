@@ -1,9 +1,12 @@
+import uuid
+
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import AbstractUser
 
 
-class User(models.Model):
+class User(AbstractUser):
     DEVELOPER = 'developer'
     CUSTOMER = 'customer'
     DRIVER = 'driver'
@@ -15,7 +18,6 @@ class User(models.Model):
         (ADMIN, 'admin')
     ]
 
-    id = models.AutoField(primary_key=True)
     dob = models.DateField(null=True, blank=True)
     verified = models.BooleanField(null=True, blank=True, default=True)
     phone = models.CharField(max_length=20, null=True, blank=True, unique=True)
@@ -23,7 +25,8 @@ class User(models.Model):
     location = models.ForeignKey('Location', on_delete=models.SET_NULL,
                                  related_name='users', null=True, blank=True)
     profile_pic = models.ImageField(upload_to='thumbnail/profile/', null=True, blank=True)
-    created_at = models.DateTimeField(null=True, blank=True, default=timezone.now)
+    # allows user to access these fields in /auth/me
+    REQUIRED_FIELDS = ["phone", "role", "email"]
 
     class Meta:
         db_table = "user"
@@ -32,11 +35,30 @@ class User(models.Model):
         return self.username
 
 
-class District(models.Model):
+class BaseAbstractModel(models.Model):
+    """
+     This model defines base models that implements common fields like:
+     created_at
+     updated_at
+     is_deleted
+    """
+    id = models.UUIDField(primary_key=True, unique=True, default=uuid.uuid4, editable=False)
+    created_at = models.DateTimeField(auto_now_add=True, editable=False)
+    updated_at = models.DateTimeField(auto_now=True, editable=False)
+    is_deleted = models.BooleanField(default=False)
 
-    id = models.AutoField(primary_key=True)
+    def soft_delete(self):
+        """soft  delete a model instance"""
+        self.is_deleted = True
+        self.save()
+
+    class Meta:
+        abstract = True
+        ordering = ['-created_at']
+
+
+class District(BaseAbstractModel):
     name = models.CharField(max_length=50, unique=True)
-    created_at = models.DateTimeField(null=True, blank=True, default=timezone.now)
 
     class Meta:
         db_table = "district"
@@ -45,28 +67,22 @@ class District(models.Model):
         return self.name
 
 
-class Location(models.Model):
-
-    id = models.AutoField(primary_key=True)
+class Location(BaseAbstractModel):
     lat = models.FloatField(validators=[MinValueValidator(
         0.0), MaxValueValidator(50.0)], null=True, blank=True)
     lng = models.FloatField(validators=[MinValueValidator(
         0.0), MaxValueValidator(50.0)], null=True, blank=True)
     district = models.ForeignKey('District', on_delete=models.SET_NULL,
                                  related_name='locations', null=True, blank=True)
-    created_at = models.DateTimeField(null=True, blank=True, default=timezone.now)
 
     class Meta:
         db_table = "location"
 
 
-class Category(models.Model):
-
-    id = models.AutoField(primary_key=True)
+class Category(BaseAbstractModel):
     name = models.CharField(max_length=255, null=True, blank=True, unique=True)
     description = models.CharField(max_length=255, null=True, blank=True)
     image = models.ImageField(upload_to='thumbnail/category/', null=True, blank=True)
-    created_at = models.DateTimeField(null=True, blank=True, default=timezone.now)
 
     class Meta:
         db_table = "category"
@@ -75,14 +91,11 @@ class Category(models.Model):
         return self.name
 
 
-class Stock(models.Model):
-
-    id = models.AutoField(primary_key=True)
+class Stock(BaseAbstractModel):
     units_in_stock = models.IntegerField(
         validators=[MinValueValidator(0)], null=True, blank=True, default=0)
     units_on_order = models.IntegerField(
         validators=[MinValueValidator(0)], null=True, blank=True, default=0)
-    created_at = models.DateTimeField(null=True, blank=True, default=timezone.now)
     name = models.CharField(max_length=255, null=True, blank=True)
     product = models.ForeignKey('Product', on_delete=models.CASCADE, related_name='stocks')
 
@@ -93,13 +106,10 @@ class Stock(models.Model):
         return self.name
 
 
-class Shop(models.Model):
-
-    id = models.AutoField(primary_key=True)
+class Shop(BaseAbstractModel):
     name = models.CharField(max_length=255, null=True, blank=True, unique=True)
     is_special = models.BooleanField(null=True, blank=True, default=False)
     image = models.ImageField(upload_to='thumbnail/shop/', null=True, blank=True)
-    created_at = models.DateTimeField(null=True, blank=True, default=timezone.now)
 
     class Meta:
         db_table = "shop"
@@ -108,9 +118,7 @@ class Shop(models.Model):
         return self.name
 
 
-class Product(models.Model):
-
-    id = models.AutoField(primary_key=True)
+class Product(BaseAbstractModel):
     name = models.CharField(max_length=255, unique=True)
     expiry_date = models.DateTimeField(null=True, blank=True)
     weight = models.FloatField(validators=[MinValueValidator(0.0)],
@@ -124,7 +132,6 @@ class Product(models.Model):
         validators=[MinValueValidator(500)], null=True, blank=True, default=500)
     category = models.ForeignKey('Category', on_delete=models.CASCADE, related_name='products')
     shop = models.ForeignKey('Shop', on_delete=models.CASCADE, related_name='products')
-    created_at = models.DateTimeField(null=True, blank=True, default=timezone.now)
 
     class Meta:
         db_table = "product"
@@ -133,7 +140,7 @@ class Product(models.Model):
         return self.name
 
 
-class Payment(models.Model):
+class Payment(BaseAbstractModel):
     PENDING = 'PENDING'
     CANCELLED = 'CANCELLED'
     PAID = 'PAID'
@@ -145,8 +152,6 @@ class Payment(models.Model):
         (EXPIRED, 'EXPIRED')
     ]
 
-    id = models.AutoField(primary_key=True)
-    created_at = models.DateTimeField(null=True, blank=True, default=timezone.now)
     paid_at = models.DateTimeField(null=True, blank=True)
     amount = models.IntegerField(validators=[MinValueValidator(500)])
     status = models.CharField(max_length=30, choices=STATUS_CHOICES,
@@ -161,7 +166,7 @@ class Payment(models.Model):
         return self.customer.id
 
 
-class Order(models.Model):
+class Order(BaseAbstractModel):
     PLACED = 'PLACED'
     CANCELLED = 'CANCELLED'
     REJECTED = 'REJECTED'
@@ -181,8 +186,6 @@ class Order(models.Model):
         (PICKUP, 'PICKUP')
     ]
 
-    id = models.AutoField(primary_key=True)
-    created_at = models.DateTimeField(null=True, blank=True, default=timezone.now)
     status = models.CharField(max_length=30, choices=STATUS_CHOICES,
                               null=True, blank=True, default='placed')
     valid = models.BooleanField(null=True, blank=True, default=True)
@@ -202,19 +205,16 @@ class Order(models.Model):
         db_table = "order"
 
 
-class OrderItem(models.Model):
-
-    id = models.AutoField(primary_key=True)
+class OrderItem(BaseAbstractModel):
     units = models.IntegerField(validators=[MinValueValidator(1)], null=True, blank=True, default=1)
     valid = models.BooleanField(null=True, blank=True, default=True)
     product = models.ForeignKey('Product', on_delete=models.CASCADE, related_name='orderitems')
-    created_at = models.DateTimeField(null=True, blank=True, default=timezone.now)
 
     class Meta:
         db_table = "orderItem"
 
 
-class DeliverySpeed(models.Model):
+class DeliverySpeed(BaseAbstractModel):
     ORDINARY = 'ORDINARY'
     EXPRESS = 'EXPRESS'
     TYPE_CHOICES = [
@@ -222,23 +222,17 @@ class DeliverySpeed(models.Model):
         (EXPRESS, 'EXPRESS')
     ]
 
-    id = models.AutoField(primary_key=True)
     type = models.CharField(max_length=30, choices=TYPE_CHOICES, null=True, blank=True)
     description = models.CharField(max_length=255, null=True, blank=True)
-    created_at = models.DateTimeField(null=True, blank=True, default=timezone.now)
 
     class Meta:
         db_table = "deliverySpeed"
 
 
-class Announcement(models.Model):
-
-    id = models.AutoField(primary_key=True)
+class Announcement(BaseAbstractModel):
     title = models.CharField(max_length=255, null=True, blank=True)
     body = models.CharField(max_length=255, null=True, blank=True)
     image = models.ImageField(upload_to='thumbnail/announcement/', null=True, blank=True)
-    created_at = models.DateTimeField(null=True, blank=True, default=timezone.now)
-
 
     class Meta:
         db_table = "announcement"
