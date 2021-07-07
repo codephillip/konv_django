@@ -105,16 +105,6 @@ class ShopSerializer(serializers.ModelSerializer):
 
 
 class ProductSerializer(serializers.ModelSerializer):
-    stocks = serializers.PrimaryKeyRelatedField(
-        many=True,
-        queryset=Stock.objects.all(),
-        required=False
-    )
-    orderitems = serializers.PrimaryKeyRelatedField(
-        many=True,
-        queryset=OrderItem.objects.all(),
-        required=False
-    )
     category = serializers.PrimaryKeyRelatedField(
         queryset=Category.objects.all(),
     )
@@ -125,7 +115,7 @@ class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = ['id', 'name', 'expiry_date', 'weight', 'image', 'discount',
-                  'description', 'color', 'price', 'stocks', 'orderitems', 'category', 'shop', 'created_at']
+                  'description', 'color', 'price', 'category', 'shop', 'created_at']
 
 
 class PaymentSerializer(serializers.ModelSerializer):
