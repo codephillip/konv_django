@@ -3,7 +3,6 @@ from rest_framework import viewsets
 from .models import (
     Announcement,
     Category,
-    DeliverySpeed,
     District,
     Location,
     Order,
@@ -17,7 +16,6 @@ from .models import (
 from .serializers import (
     AnnouncementSerializer,
     CategorySerializer,
-    DeliverySpeedSerializer,
     DistrictSerializer,
     LocationSerializer,
     OrderItemSerializer,
@@ -100,13 +98,6 @@ class OrderItemViewSet(viewsets.ModelViewSet):
     serializer_class = OrderItemSerializer
     permission_classes = []
     filterset_fields = ['id', 'units', 'valid', 'product']
-
-
-class DeliverySpeedViewSet(viewsets.ModelViewSet):
-    queryset = DeliverySpeed.objects.all()
-    serializer_class = DeliverySpeedSerializer
-    permission_classes = []
-    filterset_fields = ['id', 'type', 'description', 'orders']
 
 
 class AnnouncementViewSet(viewsets.ModelViewSet):

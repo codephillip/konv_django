@@ -182,7 +182,14 @@ class Order(BaseAbstractModel):
         (MOTORCYCLE, 'MOTORCYCLE'),
         (PICKUP, 'PICKUP')
     ]
+    ORDINARY = 'ORDINARY'
+    EXPRESS = 'EXPRESS'
+    TYPE_CHOICES = [
+        (ORDINARY, 'ORDINARY'),
+        (EXPRESS, 'EXPRESS')
+    ]
 
+    delivery_speed = models.CharField(max_length=30, choices=TYPE_CHOICES, default=ORDINARY)
     status = models.CharField(max_length=30, choices=STATUS_CHOICES,
                               null=True, blank=True, default='placed')
     valid = models.BooleanField(null=True, blank=True, default=True)
@@ -196,9 +203,7 @@ class Order(BaseAbstractModel):
                                related_name='orders', null=True, blank=True)
     customer = models.ForeignKey('User', on_delete=models.SET_NULL,
                                  related_name='customer_orders', null=True, blank=True)
-    location = models.ForeignKey('Location', on_delete=models.CASCADE, related_name='orders')
-    deliveryspeed = models.ForeignKey(
-        'DeliverySpeed', on_delete=models.CASCADE, related_name='orders')
+    location = models.ForeignKey('Location', on_delete=models.CASCADE, related_name='orders', null=True, blank=True)
 
     class Meta:
         db_table = "order"
@@ -212,21 +217,6 @@ class OrderItem(BaseAbstractModel):
 
     class Meta:
         db_table = "orderItem"
-
-
-class DeliverySpeed(BaseAbstractModel):
-    ORDINARY = 'ORDINARY'
-    EXPRESS = 'EXPRESS'
-    TYPE_CHOICES = [
-        (ORDINARY, 'ORDINARY'),
-        (EXPRESS, 'EXPRESS')
-    ]
-
-    type = models.CharField(max_length=30, choices=TYPE_CHOICES, null=True, blank=True)
-    description = models.CharField(max_length=255, null=True, blank=True)
-
-    class Meta:
-        db_table = "deliverySpeed"
 
 
 class Announcement(BaseAbstractModel):

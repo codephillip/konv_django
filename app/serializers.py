@@ -3,7 +3,6 @@ from rest_framework import serializers
 from .models import (
     Announcement,
     Category,
-    DeliverySpeed,
     District,
     Location,
     Order,
@@ -142,9 +141,6 @@ class OrderSerializer(serializers.ModelSerializer):
     location = serializers.PrimaryKeyRelatedField(
         queryset=Location.objects.all(),
     )
-    deliveryspeed = serializers.PrimaryKeyRelatedField(
-        queryset=DeliverySpeed.objects.all(),
-    )
     orderitems = serializers.PrimaryKeyRelatedField(
         many=True,
         queryset=OrderItem.objects.all(),
@@ -154,8 +150,8 @@ class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
         fields = ['id', 'created_at', 'status', 'valid', 'delivery_method', 'expected_delivery_date_time',
-                  'delivery_date_time', 'total_amount', 'payments', 'driver', 'location', 'deliveryspeed', 'orderitems',
-                  'customer', 'created_at']
+                  'delivery_date_time', 'total_amount', 'payments', 'driver', 'location', 'delivery_speed',
+                  'orderitems', 'customer', 'created_at']
 
 
 class OrderItemSerializer(serializers.ModelSerializer):
@@ -169,18 +165,6 @@ class OrderItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = OrderItem
         fields = ['id', 'units', 'valid', 'product', 'order', 'created_at']
-
-
-class DeliverySpeedSerializer(serializers.ModelSerializer):
-    orders = serializers.PrimaryKeyRelatedField(
-        many=True,
-        queryset=Order.objects.all(),
-        required=False
-    )
-
-    class Meta:
-        model = DeliverySpeed
-        fields = ['id', 'type', 'description', 'orders', 'created_at']
 
 
 class AnnouncementSerializer(serializers.ModelSerializer):

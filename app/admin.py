@@ -3,7 +3,6 @@ from django.contrib import admin
 from .models import (
     Announcement,
     Category,
-    DeliverySpeed,
     District,
     Location,
     Order,
@@ -25,5 +24,4 @@ admin.site.register(Product)
 admin.site.register(Payment)
 admin.site.register(Order)
 admin.site.register(OrderItem)
-admin.site.register(DeliverySpeed)
 admin.site.register(Announcement)

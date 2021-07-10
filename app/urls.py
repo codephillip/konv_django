@@ -9,7 +9,6 @@ from django.conf.urls.static import static
 from .views import (
     AnnouncementViewSet,
     CategoryViewSet,
-    DeliverySpeedViewSet,
     DistrictViewSet,
     LocationViewSet,
     OrderItemViewSet,
@@ -40,7 +39,6 @@ router.register(r'products', ProductViewSet, 'products')
 router.register(r'payments', PaymentViewSet, 'payments')
 router.register(r'orders', OrderViewSet, 'orders')
 router.register(r'orderitems', OrderItemViewSet, 'orderItems')
-router.register(r'deliveryspeed', DeliverySpeedViewSet, 'deliverySpeed')
 router.register(r'announcements', AnnouncementViewSet, 'announcements')
 
 schema_view = get_schema_view(
