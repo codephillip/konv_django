@@ -194,6 +194,8 @@ class Order(BaseAbstractModel):
         validators=[MinValueValidator(500)], null=True, blank=True, default=500)
     driver = models.ForeignKey('User', on_delete=models.SET_NULL,
                                related_name='orders', null=True, blank=True)
+    customer = models.ForeignKey('User', on_delete=models.SET_NULL,
+                                 related_name='customer_orders', null=True, blank=True)
     location = models.ForeignKey('Location', on_delete=models.CASCADE, related_name='orders')
     deliveryspeed = models.ForeignKey(
         'DeliverySpeed', on_delete=models.CASCADE, related_name='orders')

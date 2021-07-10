@@ -135,6 +135,10 @@ class OrderSerializer(serializers.ModelSerializer):
         queryset=User.objects.all(),
         required=False
     )
+    customer = serializers.PrimaryKeyRelatedField(
+        queryset=User.objects.all(),
+        required=False
+    )
     location = serializers.PrimaryKeyRelatedField(
         queryset=Location.objects.all(),
     )
@@ -151,7 +155,7 @@ class OrderSerializer(serializers.ModelSerializer):
         model = Order
         fields = ['id', 'created_at', 'status', 'valid', 'delivery_method', 'expected_delivery_date_time',
                   'delivery_date_time', 'total_amount', 'payments', 'driver', 'location', 'deliveryspeed', 'orderitems',
-                  'created_at']
+                  'customer', 'created_at']
 
 
 class OrderItemSerializer(serializers.ModelSerializer):
