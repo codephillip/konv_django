@@ -206,6 +206,7 @@ class OrderItem(BaseAbstractModel):
     units = models.IntegerField(validators=[MinValueValidator(1)], null=True, blank=True, default=1)
     valid = models.BooleanField(null=True, blank=True, default=True)
     product = models.ForeignKey('Product', on_delete=models.CASCADE, related_name='orderitems')
+    order = models.ForeignKey('Order', on_delete=models.CASCADE, related_name='orderitems', null=True, blank=True)
 
     class Meta:
         db_table = "orderItem"

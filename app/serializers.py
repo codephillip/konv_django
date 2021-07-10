@@ -141,21 +141,30 @@ class OrderSerializer(serializers.ModelSerializer):
     deliveryspeed = serializers.PrimaryKeyRelatedField(
         queryset=DeliverySpeed.objects.all(),
     )
+    orderitems = serializers.PrimaryKeyRelatedField(
+        many=True,
+        queryset=OrderItem.objects.all(),
+        required=False
+    )
 
     class Meta:
         model = Order
         fields = ['id', 'created_at', 'status', 'valid', 'delivery_method', 'expected_delivery_date_time',
-                  'delivery_date_time', 'total_amount', 'payments', 'driver', 'location', 'deliveryspeed', 'created_at']
+                  'delivery_date_time', 'total_amount', 'payments', 'driver', 'location', 'deliveryspeed', 'orderitems',
+                  'created_at']
 
 
 class OrderItemSerializer(serializers.ModelSerializer):
     product = serializers.PrimaryKeyRelatedField(
         queryset=Product.objects.all(),
     )
+    order = serializers.PrimaryKeyRelatedField(
+        queryset=Order.objects.all(),
+    )
 
     class Meta:
         model = OrderItem
-        fields = ['id', 'units', 'valid', 'product', 'created_at']
+        fields = ['id', 'units', 'valid', 'product', 'order', 'created_at']
 
 
 class DeliverySpeedSerializer(serializers.ModelSerializer):
