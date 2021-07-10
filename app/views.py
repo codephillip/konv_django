@@ -90,7 +90,7 @@ class OrderViewSet(viewsets.ModelViewSet):
     serializer_class = OrderSerializer
     permission_classes = []
     filterset_fields = ['id', 'created_at', 'status', 'valid', 'delivery_method', 'expected_delivery_date_time',
-                        'delivery_date_time', 'total_amount', 'payments', 'driver', 'location', 'deliveryspeed']
+                        'delivery_date_time', 'total_amount', 'payments', 'driver', 'location', 'delivery_speed']
 
 
 class OrderItemViewSet(viewsets.ModelViewSet):
