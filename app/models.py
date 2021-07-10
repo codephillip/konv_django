@@ -2,7 +2,6 @@ import uuid
 
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
-from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
 
 
@@ -18,6 +17,8 @@ class User(AbstractUser):
         (ADMIN, 'admin')
     ]
 
+    # todo add uuid id
+    # id = models.UUIDField(primary_key=True, unique=True, default=uuid.uuid4, editable=False)
     dob = models.DateField(null=True, blank=True)
     verified = models.BooleanField(null=True, blank=True, default=True)
     phone = models.CharField(max_length=20, null=True, blank=True, unique=True)
@@ -199,6 +200,8 @@ class Order(BaseAbstractModel):
     delivery_date_time = models.DateTimeField(null=True, blank=True)
     total_amount = models.IntegerField(
         validators=[MinValueValidator(500)], null=True, blank=True, default=500)
+    delivery_fee = models.IntegerField(
+        validators=[MinValueValidator(500)], null=True, blank=True, default=5000)
     driver = models.ForeignKey('User', on_delete=models.SET_NULL,
                                related_name='orders', null=True, blank=True)
     customer = models.ForeignKey('User', on_delete=models.SET_NULL,
