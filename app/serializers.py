@@ -95,7 +95,7 @@ class StockSerializer(serializers.ModelSerializer):
 class ShopSerializer(serializers.ModelSerializer):
     class Meta:
         model = Shop
-        fields = ['id', 'name', 'is_special', 'created_at']
+        fields = ['id', 'name', 'image', 'is_special', 'created_at']
 
 
 class ProductSerializer(serializers.ModelSerializer):
