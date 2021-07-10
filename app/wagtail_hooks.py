@@ -67,8 +67,8 @@ class OrderItemAdmin(ModelAdmin):
     menu_order = 600
     add_to_settings_menu = False
     exclude_from_explorer = False
-    list_display = ("valid", "customer", "created_at")
-    search_fields = ("customer",)
+    list_display = ("valid", "order", "created_at")
+    search_fields = ("order",)
 
 
 modeladmin_register(ProductAdmin)
