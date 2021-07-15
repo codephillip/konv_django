@@ -1,3 +1,4 @@
+import random
 import uuid
 
 from django.core.validators import MaxValueValidator, MinValueValidator
@@ -177,6 +178,10 @@ class Payment(BaseAbstractModel):
         return self.customer.id
 
 
+def generate_random_token():
+    return str(random.randint(10000000, 99999999))
+
+
 class Order(BaseAbstractModel):
     PLACED = 'placed'
     CANCELLED = 'cancelled'
@@ -217,6 +222,7 @@ class Order(BaseAbstractModel):
     # todo calculate this from orderitems
     sub_total_amount = models.IntegerField(
         validators=[MinValueValidator(500)], null=True, blank=True, default=500)
+    order_tracking_number = models.CharField(default=generate_random_token, max_length=30, null=True, blank=True)
     delivery_fee = models.IntegerField(
         validators=[MinValueValidator(500)], null=True, blank=True, default=5000)
     driver = models.ForeignKey('User', on_delete=models.SET_NULL,
