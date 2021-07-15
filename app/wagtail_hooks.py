@@ -56,7 +56,7 @@ class OrderAdmin(ModelAdmin):
     menu_order = 500
     add_to_settings_menu = False
     exclude_from_explorer = False
-    list_display = ("valid", "customer", "created_at")
+    list_display = ("order_tracking_number", "valid", "created_at")
     search_fields = ("customer",)
 
 
@@ -67,7 +67,7 @@ class OrderItemAdmin(ModelAdmin):
     menu_order = 600
     add_to_settings_menu = False
     exclude_from_explorer = False
-    list_display = ("valid", "order", "created_at")
+    list_display = ("id", "valid", "created_at")
     search_fields = ("order",)
 
 
