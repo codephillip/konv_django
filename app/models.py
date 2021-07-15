@@ -139,22 +139,35 @@ class Product(BaseAbstractModel):
 
 
 class Payment(BaseAbstractModel):
-    PENDING = 'PENDING'
-    CANCELLED = 'CANCELLED'
-    PAID = 'PAID'
-    EXPIRED = 'EXPIRED'
+    PENDING = 'pending'
+    CANCELLED = 'cancelled'
+    PAID = 'paid'
+    EXPIRED = 'expired'
     STATUS_CHOICES = [
-        (PENDING, 'PENDING'),
-        (CANCELLED, 'CANCELLED'),
-        (PAID, 'PAID'),
-        (EXPIRED, 'EXPIRED')
+        (PENDING, 'pending'),
+        (CANCELLED, 'cancelled'),
+        (PAID, 'paid'),
+        (EXPIRED, 'expired')
+    ]
+
+    CASH = 'cash'
+    MOMO = 'momo'
+    CARD = 'card'
+    PAYMENT_CHOICES = [
+        (CASH, 'cash'),
+        (MOMO, 'momo'),
+        (CARD, 'card')
     ]
 
     paid_at = models.DateTimeField(null=True, blank=True)
     amount = models.IntegerField(validators=[MinValueValidator(500)])
     status = models.CharField(max_length=30, choices=STATUS_CHOICES,
-                              null=True, blank=True, default='pending')
+                              null=True, blank=True, default=PENDING)
     customer = models.ForeignKey('User', on_delete=models.CASCADE, related_name='payments')
+    momo_phone_number = models.CharField(max_length=20, null=True, blank=True)
+    card_number = models.CharField(max_length=200, null=True, blank=True)
+    payment_method = models.CharField(max_length=30, choices=PAYMENT_CHOICES,
+                              null=True, blank=True, default=CASH)
     order = models.ForeignKey('Order', on_delete=models.CASCADE, related_name='payments')
 
     class Meta:
@@ -165,29 +178,29 @@ class Payment(BaseAbstractModel):
 
 
 class Order(BaseAbstractModel):
-    PLACED = 'PLACED'
-    CANCELLED = 'CANCELLED'
-    REJECTED = 'REJECTED'
-    DELIVERED = 'DELIVERED'
+    PLACED = 'placed'
+    CANCELLED = 'cancelled'
+    REJECTED = 'rejected'
+    DELIVERED = 'delivered'
     STATUS_CHOICES = [
-        (PLACED, 'PLACED'),
-        (CANCELLED, 'CANCELLED'),
-        (REJECTED, 'REJECTED'),
-        (DELIVERED, 'DELIVERED')
+        (PLACED, 'placed'),
+        (CANCELLED, 'cancelled'),
+        (REJECTED, 'rejected'),
+        (DELIVERED, 'delivered')
     ]
-    VEHICLE = 'VEHICLE'
-    MOTORCYCLE = 'MOTORCYCLE'
-    PICKUP = 'PICKUP'
+    VEHICLE = 'vehicle'
+    MOTORCYCLE = 'motorcycle'
+    PICKUP = 'pickup'
     DELIVERY_METHOD_CHOICES = [
-        (VEHICLE, 'VEHICLE'),
-        (MOTORCYCLE, 'MOTORCYCLE'),
-        (PICKUP, 'PICKUP')
+        (VEHICLE, 'vehicle'),
+        (MOTORCYCLE, 'motorcycle'),
+        (PICKUP, 'pickup')
     ]
-    ORDINARY = 'ORDINARY'
-    EXPRESS = 'EXPRESS'
+    ORDINARY = 'ordinary'
+    EXPRESS = 'express'
     TYPE_CHOICES = [
-        (ORDINARY, 'ORDINARY'),
-        (EXPRESS, 'EXPRESS')
+        (ORDINARY, 'ordinary'),
+        (EXPRESS, 'express')
     ]
 
     delivery_speed = models.CharField(max_length=30, choices=TYPE_CHOICES, default=ORDINARY)
@@ -196,9 +209,13 @@ class Order(BaseAbstractModel):
     valid = models.BooleanField(null=True, blank=True, default=True)
     delivery_method = models.CharField(
         max_length=10, choices=DELIVERY_METHOD_CHOICES, null=True, blank=True, default='motorcycle')
+    # todo calculate this from location field and delivery_method
     expected_delivery_date_time = models.DateTimeField(null=True, blank=True)
     delivery_date_time = models.DateTimeField(null=True, blank=True)
     total_amount = models.IntegerField(
+        validators=[MinValueValidator(500)], null=True, blank=True, default=500)
+    # todo calculate this from orderitems
+    sub_total_amount = models.IntegerField(
         validators=[MinValueValidator(500)], null=True, blank=True, default=500)
     delivery_fee = models.IntegerField(
         validators=[MinValueValidator(500)], null=True, blank=True, default=5000)

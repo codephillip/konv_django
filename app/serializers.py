@@ -121,7 +121,8 @@ class PaymentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Payment
-        fields = ['id', 'created_at', 'paid_at', 'amount', 'status', 'customer', 'order', 'created_at']
+        fields = ['id', 'created_at', 'paid_at', 'amount', 'status', 'customer', 'order', 'momo_phone_number',
+                  'card_number', 'payment_method', 'created_at']
 
 
 class OrderSerializer(serializers.ModelSerializer):
@@ -151,7 +152,7 @@ class OrderSerializer(serializers.ModelSerializer):
         model = Order
         fields = ['id', 'created_at', 'status', 'valid', 'delivery_method', 'expected_delivery_date_time',
                   'delivery_date_time', 'total_amount', 'payments', 'driver', 'location', 'delivery_speed',
-                  'orderitems', 'customer', 'delivery_fee', 'created_at']
+                  'orderitems', 'customer', 'delivery_fee', 'sub_total_amount', 'created_at']
 
 
 class OrderItemSerializer(serializers.ModelSerializer):
