@@ -86,6 +86,7 @@ class PaymentViewSet(viewsets.ModelViewSet):
 
 
 class OrderViewSet(viewsets.ModelViewSet):
+    # todo restrict orders to only one user/admin
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
     permission_classes = []

@@ -151,11 +151,11 @@ class Payment(BaseAbstractModel):
     ]
 
     CASH = 'cash'
-    MOMO = 'momo'
+    MOMO = 'mobile money'
     CARD = 'card'
     PAYMENT_CHOICES = [
         (CASH, 'cash'),
-        (MOMO, 'momo'),
+        (MOMO, 'mobile money'),
         (CARD, 'card')
     ]
 
