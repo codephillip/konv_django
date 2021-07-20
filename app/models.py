@@ -18,8 +18,7 @@ class User(AbstractUser):
         (ADMIN, 'admin')
     ]
 
-    # todo add uuid id
-    # id = models.UUIDField(primary_key=True, unique=True, default=uuid.uuid4, editable=False)
+    id = models.UUIDField(primary_key=True, unique=True, default=uuid.uuid4, editable=False)
     dob = models.DateField(null=True, blank=True)
     verified = models.BooleanField(null=True, blank=True, default=True)
     phone = models.CharField(max_length=20, null=True, blank=True, unique=True)
