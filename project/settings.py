@@ -97,6 +97,15 @@ if 'test' in sys.argv or 'test_coverage' in sys.argv:
 
 AUTH_USER_MODEL = "app.User"
 
+DJOSER = {
+    'PASSWORD_RESET_CONFIRM_URL': 'password/insert_new_password/{uid}/{token}',
+    'ACTIVATION_URL': '#/activate/{uid}/{token}',
+    'SERIALIZERS': {
+        'user_registration': 'app.serializers.UserPostSerializer',
+        'token': 'app.serializers.CustomTokenSerializer',
+    },
+}
+
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 

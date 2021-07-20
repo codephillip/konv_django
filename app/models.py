@@ -70,6 +70,7 @@ class Location(BaseAbstractModel):
         0.0), MaxValueValidator(50.0)], null=True, blank=True)
     lng = models.FloatField(validators=[MinValueValidator(
         0.0), MaxValueValidator(50.0)], null=True, blank=True)
+    name = models.CharField(max_length=200, null=True, blank=True)
     district = models.ForeignKey('District', on_delete=models.SET_NULL,
                                  related_name='locations', null=True, blank=True)
 

@@ -1,4 +1,6 @@
 from rest_framework import serializers
+from djoser.serializers import TokenSerializer
+from rest_framework.authtoken.models import Token
 
 from .models import (
     Announcement,
@@ -13,6 +15,27 @@ from .models import (
     Stock,
     User,
 )
+
+
+class UserPostSerializer(serializers.ModelSerializer):
+    location = serializers.PrimaryKeyRelatedField(
+        queryset=Location.objects.all(),
+        required=False
+    )
+
+    class Meta:
+        model = User
+        fields = ['dob', 'verified', 'phone', 'role', 'location', 'email', 'first_name', 'last_name']
+
+    def create(self, validated_data):
+        """
+        Sets user password.
+        NOTE: Without this, User will never sign_in and password will not be encrypted
+        """
+        user = User.objects.create_user(**validated_data)
+        user.set_password(validated_data['password'])
+        user.save()
+        return user
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -36,6 +59,21 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ['id', 'dob', 'verified', 'phone', 'role', 'payments', 'orders', 'location']
 
 
+class CustomTokenSerializer(TokenSerializer):
+    """
+    Override the djoser(https://djoser.readthedocs.io/en/latest/) token serializer
+    Allows us to return user details along side the djoser token
+    """
+    auth_token = serializers.CharField(source='key')
+    user = UserSerializer()
+
+    class Meta:
+        model = Token
+        fields = (
+            'auth_token', 'user'
+        )
+
+
 class DistrictSerializer(serializers.ModelSerializer):
     locations = serializers.PrimaryKeyRelatedField(
         many=True,
@@ -49,16 +87,6 @@ class DistrictSerializer(serializers.ModelSerializer):
 
 
 class LocationSerializer(serializers.ModelSerializer):
-    users = serializers.PrimaryKeyRelatedField(
-        many=True,
-        queryset=User.objects.all(),
-        required=False
-    )
-    orders = serializers.PrimaryKeyRelatedField(
-        many=True,
-        queryset=Order.objects.all(),
-        required=False
-    )
     district = serializers.PrimaryKeyRelatedField(
         queryset=District.objects.all(),
         required=False
@@ -66,7 +94,7 @@ class LocationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Location
-        fields = ['id', 'lat', 'lng', 'users', 'orders', 'district', 'created_at']
+        fields = ['id', 'lat', 'lng', 'name', 'district', 'created_at']
 
 
 class CategorySerializer(serializers.ModelSerializer):
