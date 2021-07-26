@@ -12,6 +12,7 @@ from .models import (
     Shop,
     Stock,
     User,
+    OrderTracker,
 )
 
 admin.site.register(User)
@@ -25,3 +26,4 @@ admin.site.register(Payment)
 admin.site.register(Order)
 admin.site.register(OrderItem)
 admin.site.register(Announcement)
+admin.site.register(OrderTracker)

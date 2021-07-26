@@ -17,7 +17,7 @@ from .views import (
     ProductViewSet,
     ShopViewSet,
     StockViewSet,
-    UserViewSet,
+    UserViewSet, OrderTrackerViewSet,
 )
 
 
@@ -40,6 +40,7 @@ router.register(r'payments', PaymentViewSet, 'payments')
 router.register(r'orders', OrderViewSet, 'orders')
 router.register(r'orderitems', OrderItemViewSet, 'orderItems')
 router.register(r'announcements', AnnouncementViewSet, 'announcements')
+router.register(r'ordertrackers', OrderTrackerViewSet, 'ordertrackers')
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -48,7 +49,7 @@ schema_view = get_schema_view(
         description="API description",
     ),
     public=True,
-    permission_classes=[permissions.AllowAny],
+    permission_classes=(permissions.AllowAny,),
 )
 
 urlpatterns = [

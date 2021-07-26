@@ -14,6 +14,7 @@ from .models import (
     Shop,
     Stock,
     User,
+    OrderTracker,
 )
 
 
@@ -57,6 +58,8 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'dob', 'verified', 'phone', 'role', 'payments', 'orders', 'location']
+        # required to resolve swagger schema conflict
+        ref_name = "UserModel"
 
 
 class CustomTokenSerializer(TokenSerializer):
@@ -194,6 +197,16 @@ class OrderItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = OrderItem
         fields = ['id', 'units', 'valid', 'product', 'order', 'created_at']
+
+
+class OrderTrackerSerializer(serializers.ModelSerializer):
+    order = serializers.PrimaryKeyRelatedField(
+        queryset=Order.objects.all(),
+    )
+
+    class Meta:
+        model = OrderTracker
+        fields = ['id', 'order', 'name', 'number', 'created_at']
 
 
 class AnnouncementSerializer(serializers.ModelSerializer):

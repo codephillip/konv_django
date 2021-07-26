@@ -252,3 +252,13 @@ class Announcement(BaseAbstractModel):
 
     class Meta:
         db_table = "announcement"
+
+
+class OrderTracker(BaseAbstractModel):
+    name = models.CharField(max_length=100, null=True, blank=True)
+    number = models.IntegerField(validators=[MinValueValidator(1)], default=1)
+    order = models.ForeignKey('Order', on_delete=models.CASCADE, related_name='ordertrackers', null=True, blank=True)
+
+    class Meta:
+        unique_together = ('number', 'order')
+        ordering = ('number',)
