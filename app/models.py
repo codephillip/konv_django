@@ -77,6 +77,9 @@ class Location(BaseAbstractModel):
     class Meta:
         db_table = "location"
 
+    def __str__(self):
+        return self.name
+
 
 class Category(BaseAbstractModel):
     name = models.CharField(max_length=255, null=True, blank=True, unique=True)
@@ -175,7 +178,7 @@ class Payment(BaseAbstractModel):
         db_table = "payment"
 
     def __str__(self):
-        return self.customer.id
+        return self.customer.username + " " + str(self.status)
 
 
 def generate_random_token():
@@ -234,6 +237,9 @@ class Order(BaseAbstractModel):
     class Meta:
         db_table = "order"
 
+    def __str__(self):
+        return self.order_tracking_number
+
 
 class OrderItem(BaseAbstractModel):
     units = models.IntegerField(validators=[MinValueValidator(1)], null=True, blank=True, default=1)
@@ -244,6 +250,9 @@ class OrderItem(BaseAbstractModel):
     class Meta:
         db_table = "orderItem"
 
+    def __str__(self):
+        return self.product.name + " " + str(self.id)
+
 
 class Announcement(BaseAbstractModel):
     title = models.CharField(max_length=255, null=True, blank=True)
@@ -252,6 +261,9 @@ class Announcement(BaseAbstractModel):
 
     class Meta:
         db_table = "announcement"
+
+    def __str__(self):
+        return self.title
 
 
 class OrderTracker(BaseAbstractModel):
@@ -262,3 +274,6 @@ class OrderTracker(BaseAbstractModel):
     class Meta:
         unique_together = ('number', 'order')
         ordering = ('number',)
+
+    def __str__(self):
+        return self.order.order_tracking_number + " " + str(self.id)
