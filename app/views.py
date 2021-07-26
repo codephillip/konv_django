@@ -12,6 +12,7 @@ from .models import (
     Shop,
     Stock,
     User,
+    OrderTracker,
 )
 from .serializers import (
     AnnouncementSerializer,
@@ -25,6 +26,7 @@ from .serializers import (
     ShopSerializer,
     StockSerializer,
     UserSerializer,
+    OrderTrackerSerializer,
 )
 
 
@@ -99,6 +101,12 @@ class OrderItemViewSet(viewsets.ModelViewSet):
     serializer_class = OrderItemSerializer
     permission_classes = []
     filterset_fields = ['id', 'units', 'valid', 'product']
+
+
+class OrderTrackerViewSet(viewsets.ModelViewSet):
+    queryset = OrderTracker.objects.all()
+    serializer_class = OrderTrackerSerializer
+    permission_classes = []
 
 
 class AnnouncementViewSet(viewsets.ModelViewSet):
