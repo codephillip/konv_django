@@ -261,3 +261,4 @@ class OrderTracker(BaseAbstractModel):
 
     class Meta:
         unique_together = ('number', 'order')
+        ordering = ('number',)

@@ -107,6 +107,7 @@ class OrderTrackerViewSet(viewsets.ModelViewSet):
     queryset = OrderTracker.objects.all()
     serializer_class = OrderTrackerSerializer
     permission_classes = []
+    filterset_fields = ['name', 'order']
 
 
 class AnnouncementViewSet(viewsets.ModelViewSet):
