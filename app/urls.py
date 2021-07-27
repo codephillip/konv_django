@@ -56,7 +56,7 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     re_path('^', include(router.urls)),
-    path(r'api/v1/beyonic_webhook', csrf_exempt(BeyonicWebhook.as_view()), name='beyonic webhook'),
+    path(r'beyonic_webhook', csrf_exempt(BeyonicWebhook.as_view()), name='beyonic webhook'),
 ]
 
 if settings.DEBUG:
