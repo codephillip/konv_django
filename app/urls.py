@@ -1,4 +1,6 @@
 from django.conf.urls import include, re_path, url
+from django.urls import path
+from django.views.decorators.csrf import csrf_exempt
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
@@ -17,7 +19,7 @@ from .views import (
     ProductViewSet,
     ShopViewSet,
     StockViewSet,
-    UserViewSet, OrderTrackerViewSet,
+    UserViewSet, OrderTrackerViewSet, BeyonicWebhook,
 )
 
 
@@ -54,6 +56,7 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     re_path('^', include(router.urls)),
+    path(r'api/v1/beyonic_webhook', csrf_exempt(BeyonicWebhook.as_view()), name='beyonic webhook'),
 ]
 
 if settings.DEBUG:

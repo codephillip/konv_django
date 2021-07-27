@@ -30,3 +30,4 @@ wagtail==2.13.2
 postgres==3.0.0
 django-cloudinary-storage==0.3.0
 djoser==2.1.0
+beyonic==0.1.16
