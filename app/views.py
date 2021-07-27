@@ -128,6 +128,7 @@ class BeyonicWebhook(APIView):
         try:
             print('webhook reached')
             print(request.data)
+            # todo update ordertracker status to 3(goods purchased)
             return Response('ACCEPT ' + request.data['remote_transaction_id'], status=status.HTTP_201_CREATED)
         except Exception as e:
             print(e)

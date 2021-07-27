@@ -236,6 +236,7 @@ class Order(BaseAbstractModel):
 
     class Meta:
         db_table = "order"
+        ordering = ('-created_at',)
 
     def __str__(self):
         return self.order_tracking_number
