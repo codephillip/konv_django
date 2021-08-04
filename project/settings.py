@@ -104,6 +104,7 @@ DJOSER = {
         'user_registration': 'app.serializers.UserPostSerializer',
         'token': 'app.serializers.CustomTokenSerializer',
     },
+    'LOGIN_FIELD': 'phone'
 }
 
 # Password validation
@@ -112,16 +113,7 @@ DJOSER = {
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    }
 ]
 
 # Internationalization
