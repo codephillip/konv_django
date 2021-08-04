@@ -27,7 +27,8 @@ class User(AbstractUser):
                                  related_name='users', null=True, blank=True)
     profile_pic = models.ImageField(upload_to='thumbnail/profile/', null=True, blank=True)
     # allows user to access these fields in /auth/me
-    REQUIRED_FIELDS = ["phone", "role", "email"]
+    USERNAME_FIELD = "phone"
+    REQUIRED_FIELDS = ["role", "email"]
 
     def __str__(self):
         return self.username

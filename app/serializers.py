@@ -57,7 +57,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['id', 'dob', 'verified', 'phone', 'role', 'payments', 'orders', 'location']
+        fields = ['id', 'dob', 'verified', 'first_name', 'last_name', 'phone', 'role', 'payments', 'orders', 'location']
         # required to resolve swagger schema conflict
         ref_name = "UserModel"
 

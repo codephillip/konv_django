@@ -104,6 +104,7 @@ DJOSER = {
         'user_registration': 'app.serializers.UserPostSerializer',
         'token': 'app.serializers.CustomTokenSerializer',
     },
+    'LOGIN_FIELD': 'phone'
 }
 
 # Password validation
