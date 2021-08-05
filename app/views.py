@@ -49,7 +49,12 @@ class DistrictViewSet(viewsets.ModelViewSet):
 
 
 class LocationViewSet(viewsets.ModelViewSet):
-    queryset = Location.objects.all()
+    def get_queryset(self):
+        user = self.request.user
+        if user.role == User.CUSTOMER:
+            return Location.objects.filter(customer=user)
+        else:
+            return Location.objects.all()
     serializer_class = LocationSerializer
     permission_classes = []
     filterset_fields = ['id', 'lat', 'lng', 'users', 'orders', 'district']
@@ -92,8 +97,12 @@ class PaymentViewSet(viewsets.ModelViewSet):
 
 
 class OrderViewSet(viewsets.ModelViewSet):
-    # todo restrict orders to only one user/admin
-    queryset = Order.objects.all()
+    def get_queryset(self):
+        user = self.request.user
+        if user.role == User.CUSTOMER:
+            return Order.objects.filter(user=user)
+        else:
+            return Order.objects.all()
     serializer_class = OrderSerializer
     permission_classes = []
     filterset_fields = ['id', 'created_at', 'status', 'valid', 'delivery_method', 'expected_delivery_date_time',

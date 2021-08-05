@@ -74,6 +74,7 @@ class Location(BaseAbstractModel):
     name = models.CharField(max_length=200, null=True, blank=True)
     district = models.ForeignKey('District', on_delete=models.SET_NULL,
                                  related_name='locations', null=True, blank=True)
+    customer = models.ForeignKey('User', on_delete=models.CASCADE, related_name='locations', null=True, blank=True)
 
     class Meta:
         db_table = "location"
