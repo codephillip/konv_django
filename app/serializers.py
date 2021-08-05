@@ -126,7 +126,7 @@ class ShopSerializer(serializers.ModelSerializer):
 class ContactSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contact
-        fields = ['id', 'phone', 'is_active', 'created_at']
+        fields = ['id', 'phone', 'is_active', 'customer', 'created_at']
 
 
 class ProductSerializer(serializers.ModelSerializer):
