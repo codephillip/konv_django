@@ -19,14 +19,9 @@ from .models import (
 
 
 class UserPostSerializer(serializers.ModelSerializer):
-    location = serializers.PrimaryKeyRelatedField(
-        queryset=Location.objects.all(),
-        required=False
-    )
-
     class Meta:
         model = User
-        fields = ['dob', 'verified', 'phone', 'role', 'location', 'email', 'first_name', 'last_name']
+        fields = ['dob', 'verified', 'phone', 'role', 'email', 'first_name', 'last_name', 'username', 'password']
 
     def create(self, validated_data):
         """
