@@ -16,7 +16,7 @@ from .models import (
     Shop,
     Stock,
     User,
-    OrderTracker,
+    OrderTracker, Contact,
 )
 from .serializers import (
     AnnouncementSerializer,
@@ -30,7 +30,7 @@ from .serializers import (
     ShopSerializer,
     StockSerializer,
     UserSerializer,
-    OrderTrackerSerializer,
+    OrderTrackerSerializer, ContactSerializer,
 )
 
 
@@ -55,6 +55,7 @@ class LocationViewSet(viewsets.ModelViewSet):
             return Location.objects.filter(customer=user)
         else:
             return Location.objects.all()
+
     serializer_class = LocationSerializer
     permission_classes = []
     filterset_fields = ['id', 'lat', 'lng', 'users', 'orders', 'district']
@@ -81,6 +82,19 @@ class ShopViewSet(viewsets.ModelViewSet):
     filterset_fields = ['id', 'name', 'is_special', 'products']
 
 
+class ContactViewSet(viewsets.ModelViewSet):
+    def get_queryset(self):
+        user = self.request.user
+        if user.role == User.CUSTOMER:
+            return Contact.objects.filter(customer=user)
+        else:
+            return Contact.objects.all()
+
+    serializer_class = ContactSerializer
+    permission_classes = []
+    filterset_fields = ['id', 'customer', 'is_active', 'phone']
+
+
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
@@ -103,6 +117,7 @@ class OrderViewSet(viewsets.ModelViewSet):
             return Order.objects.filter(customer=user)
         else:
             return Order.objects.all()
+
     serializer_class = OrderSerializer
     permission_classes = []
     filterset_fields = ['id', 'created_at', 'status', 'valid', 'delivery_method', 'expected_delivery_date_time',

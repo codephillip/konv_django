@@ -19,7 +19,7 @@ from .views import (
     ProductViewSet,
     ShopViewSet,
     StockViewSet,
-    UserViewSet, OrderTrackerViewSet, BeyonicWebhook,
+    UserViewSet, OrderTrackerViewSet, BeyonicWebhook, ContactViewSet,
 )
 
 
@@ -37,6 +37,7 @@ router.register(r'locations', LocationViewSet, 'locations')
 router.register(r'categories', CategoryViewSet, 'categories')
 router.register(r'stock', StockViewSet, 'stock')
 router.register(r'shops', ShopViewSet, 'shops')
+router.register(r'contacts', ContactViewSet, 'contacts')
 router.register(r'products', ProductViewSet, 'products')
 router.register(r'payments', PaymentViewSet, 'payments')
 router.register(r'orders', OrderViewSet, 'orders')

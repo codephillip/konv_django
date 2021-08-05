@@ -14,7 +14,7 @@ from .models import (
     Shop,
     Stock,
     User,
-    OrderTracker,
+    OrderTracker, Contact,
 )
 
 
@@ -121,6 +121,12 @@ class ShopSerializer(serializers.ModelSerializer):
     class Meta:
         model = Shop
         fields = ['id', 'name', 'image', 'is_special', 'created_at']
+
+
+class ContactSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Contact
+        fields = ['id', 'phone', 'is_active', 'created_at']
 
 
 class ProductSerializer(serializers.ModelSerializer):

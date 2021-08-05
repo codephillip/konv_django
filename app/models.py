@@ -1,9 +1,12 @@
 import random
 import uuid
 
-from django.core.validators import MaxValueValidator, MinValueValidator
+from django.core.validators import MaxValueValidator, MinValueValidator, RegexValidator
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.db.models.signals import post_save
+
+from app.utilities.constants import phone_regex
 
 
 class User(AbstractUser):
@@ -21,7 +24,12 @@ class User(AbstractUser):
     id = models.UUIDField(primary_key=True, unique=True, default=uuid.uuid4, editable=False)
     dob = models.DateField(null=True, blank=True)
     verified = models.BooleanField(null=True, blank=True, default=True)
-    phone = models.CharField(max_length=20, null=True, blank=True, unique=True)
+    phone = models.CharField(max_length=20, null=True, blank=True, unique=True, validators=[
+        RegexValidator(
+            regex=phone_regex,
+            message='Phone number is invalid',
+        )
+    ])
     role = models.CharField(max_length=30, choices=ROLE_CHOICES, default=ADMIN)
     location = models.ForeignKey('Location', on_delete=models.SET_NULL,
                                  related_name='users', null=True, blank=True)
@@ -54,6 +62,17 @@ class BaseAbstractModel(models.Model):
     class Meta:
         abstract = True
         ordering = ['-created_at']
+
+
+class Contact(BaseAbstractModel):
+    phone = models.CharField(max_length=20, null=True, blank=True, unique=True, validators=[
+        RegexValidator(
+            regex=phone_regex,
+            message='Phone number is invalid',
+        )
+    ])
+    is_active = models.BooleanField(default=False)
+    customer = models.ForeignKey('User', on_delete=models.CASCADE, related_name='contacts')
 
 
 class District(BaseAbstractModel):
@@ -173,7 +192,7 @@ class Payment(BaseAbstractModel):
     momo_phone_number = models.CharField(max_length=20, null=True, blank=True)
     card_number = models.CharField(max_length=200, null=True, blank=True)
     payment_method = models.CharField(max_length=30, choices=PAYMENT_CHOICES,
-                              null=True, blank=True, default=CASH)
+                                      null=True, blank=True, default=CASH)
     order = models.ForeignKey('Order', on_delete=models.CASCADE, related_name='payments')
 
     class Meta:
@@ -280,3 +299,11 @@ class OrderTracker(BaseAbstractModel):
 
     def __str__(self):
         return self.order.order_tracking_number + " " + str(self.id)
+
+
+def save_initial_customer_contact(sender, instance, created, update_fields, **kwargs):
+    if created and instance.role == User.CUSTOMER:
+        Contact(phone=instance.phone, customer=instance, is_active=True).save()
+
+
+post_save.connect(save_initial_customer_contact, sender=User)
