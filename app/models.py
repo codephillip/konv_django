@@ -306,4 +306,10 @@ def save_initial_customer_contact(sender, instance, created, update_fields, **kw
         Contact(phone=instance.phone, customer=instance, is_active=True).save()
 
 
+def deactivate_mm_numbers(sender, instance, created, update_fields, **kwargs):
+    Contact.objects.filter(customer=instance.customer).update(is_active=False)
+    Contact.objects.filter(id=instance.id).update(is_active=True)
+
+
 post_save.connect(save_initial_customer_contact, sender=User)
+post_save.connect(deactivate_mm_numbers, sender=Contact)
