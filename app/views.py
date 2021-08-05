@@ -100,7 +100,7 @@ class OrderViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         user = self.request.user
         if user.role == User.CUSTOMER:
-            return Order.objects.filter(user=user)
+            return Order.objects.filter(customer=user)
         else:
             return Order.objects.all()
     serializer_class = OrderSerializer
