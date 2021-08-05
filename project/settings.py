@@ -101,7 +101,7 @@ DJOSER = {
     'PASSWORD_RESET_CONFIRM_URL': 'password/insert_new_password/{uid}/{token}',
     'ACTIVATION_URL': '#/activate/{uid}/{token}',
     'SERIALIZERS': {
-        'user_registration': 'app.serializers.UserPostSerializer',
+        'user_create': 'app.serializers.UserPostSerializer',
         'token': 'app.serializers.CustomTokenSerializer',
     },
     'LOGIN_FIELD': 'phone'
