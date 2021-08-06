@@ -88,7 +88,7 @@ class LocationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Location
-        fields = ['id', 'lat', 'lng', 'name', 'district', 'created_at']
+        fields = ['id', 'lat', 'lng', 'name', 'district', 'is_active', 'created_at']
 
 
 class CategorySerializer(serializers.ModelSerializer):
