@@ -31,8 +31,6 @@ class User(AbstractUser):
         )
     ])
     role = models.CharField(max_length=30, choices=ROLE_CHOICES, default=ADMIN)
-    location = models.ForeignKey('Location', on_delete=models.SET_NULL,
-                                 related_name='users', null=True, blank=True)
     profile_pic = models.ImageField(upload_to='thumbnail/profile/', null=True, blank=True)
     # allows user to access these fields in /auth/me
     USERNAME_FIELD = "phone"

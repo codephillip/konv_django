@@ -38,7 +38,7 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = []
-    filterset_fields = ['id', 'dob', 'verified', 'phone', 'role', 'payments', 'orders', 'location']
+    filterset_fields = ['id', 'dob', 'verified', 'phone', 'role', 'payments', 'orders']
 
 
 class DistrictViewSet(viewsets.ModelViewSet):

@@ -45,14 +45,10 @@ class UserSerializer(serializers.ModelSerializer):
         queryset=Order.objects.all(),
         required=False
     )
-    location = serializers.PrimaryKeyRelatedField(
-        queryset=Location.objects.all(),
-        required=False
-    )
 
     class Meta:
         model = User
-        fields = ['id', 'dob', 'verified', 'first_name', 'last_name', 'phone', 'role', 'payments', 'orders', 'location']
+        fields = ['id', 'dob', 'verified', 'first_name', 'last_name', 'phone', 'role', 'payments', 'orders']
         # required to resolve swagger schema conflict
         ref_name = "UserModel"
 
