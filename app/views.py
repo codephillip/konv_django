@@ -58,7 +58,7 @@ class LocationViewSet(viewsets.ModelViewSet):
 
     serializer_class = LocationSerializer
     permission_classes = []
-    filterset_fields = ['id', 'lat', 'lng', 'users', 'orders', 'district', 'is_active']
+    filterset_fields = ['id', 'lat', 'lng', 'customer', 'district', 'is_active']
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
