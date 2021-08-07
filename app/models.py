@@ -141,11 +141,22 @@ class Shop(BaseAbstractModel):
 
 
 class Product(BaseAbstractModel):
+    KG = 'kg'
+    LITRE = 'l'
+    PIECE = 'p'
+    BUNCH = 'bunch'
+    METRIC_CHOICES = [
+        (KG, KG),
+        (LITRE, LITRE),
+        (PIECE, PIECE),
+        (BUNCH, BUNCH)
+    ]
     name = models.CharField(max_length=255, unique=True)
     expiry_date = models.DateTimeField(null=True, blank=True)
     weight = models.FloatField(validators=[MinValueValidator(0.0)],
                                null=True, blank=True, default=0.0)
     image = models.ImageField(upload_to='thumbnail/product/', null=True, blank=True)
+    metric = models.CharField(max_length=30, choices=METRIC_CHOICES, default=KG)
     discount = models.IntegerField(validators=[MinValueValidator(
         0), MaxValueValidator(99)], null=True, blank=True, default=0)
     description = models.CharField(max_length=255, null=True, blank=True)
