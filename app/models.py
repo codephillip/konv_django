@@ -142,8 +142,8 @@ class Shop(BaseAbstractModel):
 
 class Product(BaseAbstractModel):
     KG = 'kg'
-    LITRE = 'l'
-    PIECE = 'p'
+    LITRE = 'litre'
+    PIECE = 'piece'
     BUNCH = 'bunch'
     METRIC_CHOICES = [
         (KG, KG),

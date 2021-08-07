@@ -136,7 +136,7 @@ class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = ['id', 'name', 'expiry_date', 'weight', 'image', 'discount',
-                  'description', 'color', 'price', 'category', 'shop', 'created_at']
+                  'description', 'color', 'price', 'category', 'shop', 'metric', 'created_at']
 
 
 class PaymentSerializer(serializers.ModelSerializer):
