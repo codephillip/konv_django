@@ -166,7 +166,7 @@ class OrderItemProductsSerializer(serializers.Field):
     def to_representation(self, order):
         order_items = OrderItem.objects.filter(order=order)
         if order_items:
-            return [order_item.product for order_item in order_items]
+            return [ProductSerializer(order_item.product).data for order_item in order_items]
         else:
             return []
 
