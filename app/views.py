@@ -113,9 +113,13 @@ class PaymentViewSet(viewsets.ModelViewSet):
 class OrderViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         user = self.request.user
-        if user.role == User.CUSTOMER:
-            return Order.objects.filter(customer=user)
-        else:
+        try:
+            if user.role == User.CUSTOMER:
+                return Order.objects.filter(customer=user)
+            else:
+                return Order.objects.all()
+        except Exception as e:
+            print(e)
             return Order.objects.all()
 
     serializer_class = OrderSerializer
