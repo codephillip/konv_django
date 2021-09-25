@@ -162,11 +162,24 @@ class LastOrderTrackerStatusSerializer(serializers.Field):
             return "Order Placed"
 
 
-class OrderItemProductsSerializer(serializers.Field):
+class OrderItemSerializer(serializers.ModelSerializer):
+    product = serializers.PrimaryKeyRelatedField(
+        queryset=Product.objects.all(),
+    )
+    order = serializers.PrimaryKeyRelatedField(
+        queryset=Order.objects.all(),
+    )
+
+    class Meta:
+        model = OrderItem
+        fields = ['id', 'units', 'valid', 'product', 'order', 'created_at']
+
+
+class OrderItemDetailSerializer(serializers.Field):
     def to_representation(self, order):
         order_items = OrderItem.objects.filter(order=order)
         if order_items:
-            return [ProductSerializer(order_item.product).data for order_item in order_items]
+            return [OrderItemSerializer(order_item).data for order_item in order_items]
         else:
             return []
 
@@ -188,33 +201,19 @@ class OrderSerializer(serializers.ModelSerializer):
     location = serializers.PrimaryKeyRelatedField(
         queryset=Location.objects.all(),
     )
-    orderitems = serializers.PrimaryKeyRelatedField(
-        many=True,
-        queryset=OrderItem.objects.all(),
-        required=False
-    )
-    products = OrderItemProductsSerializer(source='*', read_only=True)
+    # orderitems = serializers.RelatedField(
+    #     queryset=OrderItem.objects.all(),
+    # )
+    orderitems = OrderItemSerializer(many=True, read_only=True)
+    # orderitems = OrderItemDetailSerializer(source='*', read_only=True)
     last_tracker_status = LastOrderTrackerStatusSerializer(source='*', read_only=True)
 
     class Meta:
         model = Order
         fields = ['id', 'created_at', 'status', 'valid', 'delivery_method', 'expected_delivery_date_time',
                   'delivery_date_time', 'total_amount', 'payments', 'driver', 'location', 'delivery_speed',
-                  'orderitems', 'customer', 'delivery_fee', 'sub_total_amount', 'order_tracking_number', 'products',
+                  'orderitems', 'customer', 'delivery_fee', 'sub_total_amount', 'order_tracking_number',
                   'last_tracker_status', 'created_at']
-
-
-class OrderItemSerializer(serializers.ModelSerializer):
-    product = serializers.PrimaryKeyRelatedField(
-        queryset=Product.objects.all(),
-    )
-    order = serializers.PrimaryKeyRelatedField(
-        queryset=Order.objects.all(),
-    )
-
-    class Meta:
-        model = OrderItem
-        fields = ['id', 'units', 'valid', 'product', 'order', 'created_at']
 
 
 class OrderTrackerSerializer(serializers.ModelSerializer):
