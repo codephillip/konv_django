@@ -261,6 +261,9 @@ class Order(BaseAbstractModel):
         validators=[MinValueValidator(500)], null=True, blank=True, default=5000)
     driver = models.ForeignKey('User', on_delete=models.SET_NULL,
                                related_name='orders', null=True, blank=True)
+    description = models.CharField(max_length=255, null=True, blank=True)
+    is_curated_list = models.BooleanField(null=True, blank=True, default=False)
+    image = models.ImageField(upload_to='thumbnail/curated/', null=True, blank=True)
     customer = models.ForeignKey('User', on_delete=models.SET_NULL,
                                  related_name='customer_orders', null=True, blank=True)
     location = models.ForeignKey('Location', on_delete=models.CASCADE, related_name='orders', null=True, blank=True)
