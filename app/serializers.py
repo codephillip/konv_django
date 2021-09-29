@@ -200,7 +200,7 @@ class OrderSerializer(serializers.ModelSerializer):
         fields = ['id', 'created_at', 'status', 'valid', 'delivery_method', 'expected_delivery_date_time',
                   'delivery_date_time', 'total_amount', 'payments', 'driver', 'location', 'delivery_speed',
                   'orderitems', 'customer', 'delivery_fee', 'sub_total_amount', 'order_tracking_number', 'description',
-                  'is_curated_list', 'image', 'last_tracker_status', 'created_at']
+                  'is_curated_list', 'image', 'name', 'last_tracker_status', 'created_at']
 
 
 class OrderTrackerSerializer(serializers.ModelSerializer):
