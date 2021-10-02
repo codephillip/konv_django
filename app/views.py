@@ -116,7 +116,7 @@ class OrderViewSet(viewsets.ModelViewSet):
         user = self.request.user
         try:
             if user.role == User.CUSTOMER:
-                return Order.objects.filter(Q(customer=user) | Q(is_curated_list=true))
+                return Order.objects.filter(Q(customer=user) | Q(is_curated_list=True))
             else:
                 return Order.objects.all()
         except Exception as e:
