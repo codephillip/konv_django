@@ -3,6 +3,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
+from django.db.models import Q
 
 from .models import (
     Announcement,
@@ -115,7 +116,7 @@ class OrderViewSet(viewsets.ModelViewSet):
         user = self.request.user
         try:
             if user.role == User.CUSTOMER:
-                return Order.objects.filter(customer=user)
+                return Order.objects.filter(Q(customer=user) | Q(is_curated_list=true))
             else:
                 return Order.objects.all()
         except Exception as e:
