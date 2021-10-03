@@ -117,11 +117,12 @@ class OrderViewSet(viewsets.ModelViewSet):
         try:
             if user.role == User.CUSTOMER:
                 return Order.objects.filter(Q(customer=user) | Q(is_curated_list=True))
-            else:
+            if user.role in [User.DEVELOPER, User.ADMIN]:
                 return Order.objects.all()
+            return Order.objects.filter(is_curated_list=True)
         except Exception as e:
             print(e)
-            return Order.objects.all()
+            return Order.objects.filter(is_curated_list=True)
 
     serializer_class = OrderSerializer
     permission_classes = []
