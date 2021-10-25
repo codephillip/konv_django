@@ -74,6 +74,7 @@ TEMPLATES = [
     },
 ]
 
+WAGTAIL_SITE_NAME = 'Konviniyenti Dashboard'
 WSGI_APPLICATION = 'project.wsgi.application'
 
 # Database
