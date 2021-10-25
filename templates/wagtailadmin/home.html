@@ -1,0 +1,17 @@
+{% extends "wagtailadmin/home.html" %}
+{% load static %}
+
+
+{% block content %}
+    <header class="merged nice-padding">
+        <div class="row row-flush">
+            <div class="col1">
+                <div class="avatar"><img src="https://safepal-production.s3-us-west-2.amazonaws.com/icons/woman_color.png" alt="" /></div>
+            </div>
+            <div class="col9">
+                <h1>{% block branding_welcome %}Welcome to the Konviniyenti Dashboard{% endblock %}</h1>
+                <div class="user-name">{{ user.get_full_name|default:user.get_username }}</div>
+            </div>
+        </div>
+    </header>
+{% endblock %}
