@@ -57,6 +57,7 @@ class OrderAdmin(ModelAdmin):
     add_to_settings_menu = False
     exclude_from_explorer = False
     list_display = ("order_tracking_number", "valid", "created_at")
+    list_filter = ("customer",)
     search_fields = ("customer",)
 
 
@@ -68,6 +69,7 @@ class OrderItemAdmin(ModelAdmin):
     add_to_settings_menu = False
     exclude_from_explorer = False
     list_display = ("id", "valid", "created_at")
+    list_filter = ("order", "product")
     search_fields = ("order",)
 
 
